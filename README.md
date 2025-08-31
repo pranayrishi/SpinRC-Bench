@@ -52,17 +52,17 @@ def _estimate_stable_timestep(self):
 ```
 #### 2. Critical Mathematical Errors:
 
-### - A. Exchange Field Calculation
+##### - A. Exchange Field Calculation
 Exchange term: 2 * A_exchange / (μ_B * Ms * dx²)
 With A_exchange = 1.3e-11 J/m, Ms = 8e5 A/m, dx = 1e-9 m:
 Result: H_exchange ≈ 1.77e10 A/m ⚠️ UNREALISTICALLY LARGE
 
-### - B. Timestep Consequences
+##### - B. Timestep Consequences
 Stability condition: dt < 2α/(γ·H_max)
 With α = 0.01, γ = 2.211e5, H_max ≈ 1.77e10:
 Result: dt ≈ 5.1e-18 seconds ⚠️ FEMTOSECOND SCALE
 
-#### - C. Evolution Time Problem
+###### - C. Evolution Time Problem
 Target time: T_final = 0.1e-9 s (100 picoseconds)
 Number of steps: 0.1e-9 / 5.1e-18 ≈ 2e10 steps
 ✅ This matches the astronomical number observed!
