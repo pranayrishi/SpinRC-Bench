@@ -62,7 +62,26 @@ Stability condition: dt < 2α/(γ·H_max)
 With α = 0.01, γ = 2.211e5, H_max ≈ 1.77e10:
 Result: dt ≈ 5.1e-18 seconds ⚠️ FEMTOSECOND SCALE
 
-###### - C. Evolution Time Problem
+##### - C. Evolution Time Problem
 Target time: T_final = 0.1e-9 s (100 picoseconds)
 Number of steps: 0.1e-9 / 5.1e-18 ≈ 2e10 steps
 ✅ This matches the astronomical number observed!
+
+### Specificed Technical Issues
+
+#### 1. Physics Parameter Mistmatch
+Spatial discretization (dx = 1e-9 m) is too coarse for exchange length scale
+Exchange length ≈ √(2A/(μ₀Ms²)) ≈ 5e-9 m
+❌ Violation of stability criterion: dx > λ_exchange/2
+
+#### 2. Time Scale Inconsistency
+Magnetic dynamics: Femtosecond to picosecond timescales
+Reservoir computing: Nanosecond to microsecond timescales
+⚠️ Mismatch factor: ~1,000,000x difference
+
+#### 3. Numerical Stability Issues
+Current problematic evolution call:
+trajectory = reservoir.evolve(0.1e-9, save_interval=0.01e-9)
+This requires: 0.1e-9 / 1e-15 = 100,000 steps (minimum)
+But with calculation errors: 0.1e-9 / 5e-18 = 20,000,000,000 steps!
+
